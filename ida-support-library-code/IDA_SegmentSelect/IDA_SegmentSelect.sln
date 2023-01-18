@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library", "Lib\lib.vcxproj", "{DEADBEEF-CAFE-F00D-FEED-C0FFEEC0FFEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		DebugEA64|x64 = DebugEA64|x64
+		Release|x64 = Release|x64
+		ReleaseEA64|x64 = ReleaseEA64|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEADBEEF-CAFE-F00D-FEED-C0FFEEC0FFEE}.Debug|x64.ActiveCfg = Debug|x64
+		{DEADBEEF-CAFE-F00D-FEED-C0FFEEC0FFEE}.Debug|x64.Build.0 = Debug|x64
+		{DEADBEEF-CAFE-F00D-FEED-C0FFEEC0FFEE}.DebugEA64|x64.ActiveCfg = DebugEA64|x64
+		{DEADBEEF-CAFE-F00D-FEED-C0FFEEC0FFEE}.DebugEA64|x64.Build.0 = DebugEA64|x64
+		{DEADBEEF-CAFE-F00D-FEED-C0FFEEC0FFEE}.Release|x64.ActiveCfg = Release|x64
+		{DEADBEEF-CAFE-F00D-FEED-C0FFEEC0FFEE}.Release|x64.Build.0 = Release|x64
+		{DEADBEEF-CAFE-F00D-FEED-C0FFEEC0FFEE}.ReleaseEA64|x64.ActiveCfg = ReleaseEA64|x64
+		{DEADBEEF-CAFE-F00D-FEED-C0FFEEC0FFEE}.ReleaseEA64|x64.Build.0 = ReleaseEA64|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		Qt5Version = 5.6.0
+		SolutionGuid = {230B518D-983E-40F5-AADA-1CED164B3759}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,118 @@
+
+
+// Ogg Vorbis audio decoder - v1.04 - public domain
+// http://nothings.org/stb_vorbis/
+//
+// Written by Sean Barrett in 2007, last updated in 2014
+// Sponsored by RAD Game Tools.
+//
+// Placed in the public domain April 2007 by the author: no copyright
+// is claimed, and you may use it for any purpose you like.
+//
+// No warranty for any purpose is expressed or implied by the author (nor
+// by RAD Game Tools). Report bugs and send enhancements to the author.
+//
+// Limitations:
+//
+//   - seeking not supported except manually via PUSHDATA api
+//   - floor 0 not supported (used in old ogg vorbis files pre-2004)
+//   - lossless sample-truncation at beginning ignored
+//   - cannot concatenate multiple vorbis streams
+//   - sample positions are 32-bit, limiting seekable 192Khz
+//       files to around 6 hours (Ogg supports 64-bit)
+//
+// Bugfix/warning contributors:
+//    Terje Mathisen     Niklas Frykholm     Andy Hill
+//    Casey Muratori     John Bolton         Gargaj
+//    Laurent Gomila     Marc LeBlanc        Ronny Chevalier
+//    Bernhard Wodo      Evan Balster			"alxprd"@github
+//    Tom Beaumont       Ingo Leitgeb
+// (If you reported a bug but do not appear in this list, it is because
+// someone else reported the bug before you. There were too many of you to
+// list them all because I was lax about updating for a long time, sorry.)
+//
+// Partial history:
+//    1.04    - 2014/08/27 - fix missing const-correct case in API
+//    1.03    - 2014/08/07 - warning fixes
+//    1.02    - 2014/07/09 - declare qsort comparison as explicitly _cdecl in Windows
+//    1.01    - 2014/06/18 - fix stb_vorbis_get_samples_float (interleaved was correct)
+//    1.0     - 2014/05/26 - fix memory leaks; fix warnings; fix bugs in >2-channel;
+//                           (API change) report sample rate for decode-full-file funcs
+//    0.99996 -            - bracket #include <malloc.h> for macintosh compilation
+//    0.99995 -            - avoid alias-optimization issue in float-to-int conversion
+//
+// See end of file for full version history.
+
+///////////   THREAD SAFETY
+
+    // Individual stb_vorbis* handles are not thread-safe; you cannot decode from
+    // them from multiple threads at the same time. However, you can have multiple
+    // stb_vorbis* handles and decode from them independently in multiple thrads.
+
+
+    ///////////   MEMORY ALLOCATION
+
+    // normally stb_vorbis uses malloc() to allocate memory at startup,
+    // and alloca() to allocate temporary memory during a frame on the
+    // stack. (Memory consumption will depend on the amount of setup
+    // data in the file and how you set the compile flags for speed
+    // vs. size. In my test files the maximal-size usage is ~150KB.)
+    //
+    // You can modify the wrapper functions in the source (setup_malloc,
+    // setup_temp_malloc, temp_malloc) to change this behavior, or you
+    // can use a simpler allocation model: you pass in a buffer from
+    // which stb_vorbis will allocate _all_ its memory (including the
+    // temp memory). "open" may fail with a VORBIS_outofmem if you
+    // do not pass in enough data; there is no way to determine how
+    // much you do need except to succeed (at which point you can
+    // query get_info to find the exact amount required. yes I know
+    // this is lame).
+    //
+    // If you pass in a non-NULL buffer of the type below, allocation
+    // will occur from it as described above. Otherwise just pass NULL
+    // to use malloc()/alloca()
+
+
+/* Version history
+    1.04    - 2014/08/27 - fix missing const-correct case in API
+    1.03    - 2014/08/07 - Warning fixes
+    1.02    - 2014/07/09 - Declare qsort compare function _cdecl on windows
+    1.01    - 2014/06/18 - fix stb_vorbis_get_samples_float
+    1.0     - 2014/05/26 - fix memory leaks; fix warnings; fix bugs in multichannel
+                           (API change) report sample rate for decode-full-file funcs
+    0.99996 - bracket #include <malloc.h> for macintosh compilation by Laurent Gomila
+    0.99995 - use union instead of pointer-cast for fast-float-to-int to avoid alias-optimization problem
+    0.99994 - change fast-float-to-int to work in single-precision FPU mode, remove endian-dependence
+    0.99993 - remove assert that fired on legal files with empty tables
+    0.99992 - rewind-to-start
+    0.99991 - bugfix to stb_vorbis_get_samples_short by Bernhard Wodo
+    0.9999 - (should have been 0.99990) fix no-CRT support, compiling as C++
+    0.9998 - add a full-decode function with a memory source
+    0.9997 - fix a bug in the read-from-FILE case in 0.9996 addition
+    0.9996 - query length of vorbis stream in samples/seconds
+    0.9995 - bugfix to another optimization that only happened in certain files
+    0.9994 - bugfix to one of the optimizations that caused significant (but inaudible?) errors
+    0.9993 - performance improvements; runs in 99% to 104% of time of reference implementation
+    0.9992 - performance improvement of IMDCT; now performs close to reference implementation
+    0.9991 - performance improvement of IMDCT
+    0.999 - (should have been 0.9990) performance improvement of IMDCT
+    0.998 - no-CRT support from Casey Muratori
+    0.997 - bugfixes for bugs found by Terje Mathisen
+    0.996 - bugfix: fast-huffman decode initialized incorrectly for sparse codebooks; fixing gives 10% speedup - found by Terje Mathisen
+    0.995 - bugfix: fix to 'effective' overrun detection - found by Terje Mathisen
+    0.994 - bugfix: garbage decode on final VQ symbol of a non-multiple - found by Terje Mathisen
+    0.993 - bugfix: pushdata API required 1 extra byte for empty page (failed to consume final page if empty) - found by Terje Mathisen
+    0.992 - fixes for MinGW warning
+    0.991 - turn fast-float-conversion on by default
+    0.990 - fix push-mode seek recovery if you seek into the headers
+    0.98b - fix to bad release of 0.98
+    0.98 - fix push-mode seek recovery; robustify float-to-int and support non-fast mode
+    0.97 - builds under c++ (typecasting, don't use 'class' keyword)
+    0.96 - somehow MY 0.95 was right, but the web one was wrong, so here's my 0.95 rereleased as 0.96, fixes a typo in the clamping code
+    0.95 - clamping code for 16-bit functions
+    0.94 - not publically released
+    0.93 - fixed all-zero-floor case (was decoding garbage)
+    0.92 - fixed a memory leak
+    0.91 - conditional compiles to omit parts of the API and the infrastructure to support them: STB_VORBIS_NO_PULLDATA_API, STB_VORBIS_NO_PUSHDATA_API, STB_VORBIS_NO_STDIO, STB_VORBIS_NO_INTEGER_CONVERSION
+    0.90 - first public release
+*/

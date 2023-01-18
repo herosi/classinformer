@@ -1,0 +1,47 @@
+
+IDA WaitBoxEx:
+Version 1.5, April 2018
+By Sirmabus
+A full featured IDA Pro wait box replacement with progress bar and
+customization options.
+
+Features:
+1) A "determinate" or "indeterminate" progress bar.
+2) A minimize button.
+3) Facilitates Qt CSS style sheets application for customization.
+   Here one can change colors, the font, positions, labels, add texture, etc.
+4) Facilitates the changing of the titlebar icon for yet more customization.
+5) A Windows 7 style taskbar progress indicator.
+6) Low cancel-check overhead using the isUpdateTime() method.
+
+Fixes:
+1) Fixes the IDA wait box and main window freeze/stall/hangup issue.
+2) Wait box works as a direct child of the main window; avoiding the odd separate
+window you see when you tab/switched the default one.
+3) Working "Cancel" button that instantly responds to user input.
+4) The close 'X' button is enabled, acting as an alternate "Cancel" button.
+
+It's pretty much the same useage as the deault IDA "show_wait_box()".
+Example:
+#include "WaitBoxEx.h"
+
+WaitBox::show();
+do
+{
+        // Check if canceled and update progress
+        if (WaitBox::isUpdateTime())
+                if (WaitBox::updateAndCancelCheck(progressPercent))
+            break;
+
+        ...
+        ...
+}
+while(I'm doing something);
+WaitBox::hide();
+
+See the "Plugin Example" project.
+You do NOT need to have Qt installed to use it.
+But you'll need it if you want to make modifications.
+
+See for more info:
+http://www.macromonkey.com/waitboxex-ida-pro-sdk-show_wait_box-replacement/

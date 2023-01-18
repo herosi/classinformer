@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library", "IDA_OggPlayer.vcxproj", "{22222222-2222-2222-2222-222222222222}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		DebugEA64|x64 = DebugEA64|x64
+		Release|x64 = Release|x64
+		ReleaseEA64|x64 = ReleaseEA64|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22222222-2222-2222-2222-222222222222}.Debug|x64.ActiveCfg = Debug|x64
+		{22222222-2222-2222-2222-222222222222}.Debug|x64.Build.0 = Debug|x64
+		{22222222-2222-2222-2222-222222222222}.DebugEA64|x64.ActiveCfg = DebugEA64|x64
+		{22222222-2222-2222-2222-222222222222}.DebugEA64|x64.Build.0 = DebugEA64|x64
+		{22222222-2222-2222-2222-222222222222}.Release|x64.ActiveCfg = Release|x64
+		{22222222-2222-2222-2222-222222222222}.Release|x64.Build.0 = Release|x64
+		{22222222-2222-2222-2222-222222222222}.ReleaseEA64|x64.ActiveCfg = ReleaseEA64|x64
+		{22222222-2222-2222-2222-222222222222}.ReleaseEA64|x64.Build.0 = ReleaseEA64|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		Qt5Version = 5.6.3
+		SolutionGuid = {B26AD660-E64E-4E68-A67D-77EF965D6EF1}
+	EndGlobalSection
+EndGlobal

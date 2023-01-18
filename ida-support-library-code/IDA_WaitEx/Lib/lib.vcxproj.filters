@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="WaitBoxEx.cpp" />
+    <ClCompile Include="WinTaskProgress.cpp">
+      <Filter>Taskbar</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\MDS Release\moc_MyQProgressDialog.cpp">
+      <Filter>Generated Files\MDS Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MyQProgressDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MyQProgressDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\MDS Debug\moc_MyQProgressDialog.cpp">
+      <Filter>Generated Files\MDS Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\ReleaseEA64\moc_MyQProgressDialog.cpp">
+      <Filter>Generated Files\ReleaseEA64</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\MSD ReleaseEA64\moc_MyQProgressDialog.cpp">
+      <Filter>Generated Files\MDS ReleaseEA64</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\MDS DebugEA64\moc_MyQProgressDialog.cpp">
+      <Filter>Generated Files\MDS DebugEA64</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\DebugEA64\moc_MyQProgressDialog.cpp">
+      <Filter>Generated Files\DebugEA64</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{3fb17cc4-f550-430e-bab8-a753d1693789}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{ac36ff6d-414b-4a61-8720-c3260abf7659}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
+      <Extensions>cpp;moc</Extensions>
+    </Filter>
+    <Filter Include="Taskbar">
+      <UniqueIdentifier>{684bc266-3dd5-4a5b-aa5b-933f723de5de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\MDS Release">
+      <UniqueIdentifier>{7283a4d7-c3cf-4265-b276-01eb571f2131}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\MDS Debug">
+      <UniqueIdentifier>{adb34d0b-4873-49bf-b8d9-f92610d41b33}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\DebugEA64">
+      <UniqueIdentifier>{2411509d-48f7-4868-a7a5-e4e43a3cd7d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\ReleaseEA64">
+      <UniqueIdentifier>{b0fce750-d1b2-4372-8fdd-665639b6775a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\MDS DebugEA64">
+      <UniqueIdentifier>{bbeb1cff-1799-454f-8dfc-5e262d8badc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\MDS ReleaseEA64">
+      <UniqueIdentifier>{6ba0ce52-67ed-4c4b-91a6-943eee8db5b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="WaitBoxEx.h" />
+    <CustomBuild Include="MyQProgressDialog.h" />
+    <CustomBuild Include="WinTaskProgress.h">
+      <Filter>Taskbar</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\IDA_WaitBoxEx.txt" />
+  </ItemGroup>
+</Project>

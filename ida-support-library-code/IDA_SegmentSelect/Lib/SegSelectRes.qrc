@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/seglib">
+        <file>code_seg.png</file>
+        <file>data_seg.png</file>
+        <file>extrn_seg.png</file>
+        <file>idaq_seg.png</file>
+        <file>other_seg.png</file>
+    </qresource>
+</RCC>

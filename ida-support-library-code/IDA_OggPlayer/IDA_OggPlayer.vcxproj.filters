@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+    <Text Include="stb_vorbis.txt">
+      <Filter>stb_vorbis</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="IdaOgg.cpp" />
+    <ClCompile Include="stb_vorbis.cpp">
+      <Filter>stb_vorbis</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IdaOgg.h" />
+    <ClInclude Include="stb_vorbis.h">
+      <Filter>stb_vorbis</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="stb_vorbis">
+      <UniqueIdentifier>{0d6cb019-1350-4c37-920d-5b28ebcf922e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
