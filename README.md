@@ -6,3 +6,6 @@ Changelog from the original v2.6
 - Updated the plugin form to the new one to work with IDA SDK 8.2
 - Created a plugin to analyze PE32 on IDA 64 (IDA_ClassInformer_PlugIn3264.dlL) because IDA is currently stopping to use IDA for 32-bit.
 - Linked VC++ runtime statically (/MT*)
+
+## Download
+- You can download compiled binaries from the [Releases](../../releases) section.
