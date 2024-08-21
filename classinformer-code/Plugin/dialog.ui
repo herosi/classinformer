@@ -79,7 +79,29 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Place structures</string>
+    <string>&amp;Place structures</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBoxAtNamed">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>94</y>
+     <width>137</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Noto Sans</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>at &amp;named locations</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="checkBox2">
@@ -101,7 +123,7 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Process static initializers &amp;&amp; terminators</string>
+    <string>Process static &amp;initializers &amp;&amp; terminators</string>
    </property>
   </widget>
   <widget class="QCheckBox" name="checkBox3">
@@ -123,7 +145,7 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Audio on completion</string>
+    <string>&amp;Audio on completion</string>
    </property>
   </widget>
   <widget class="QLabel" name="linkLabel">
@@ -131,8 +153,8 @@
     <rect>
      <x>15</x>
      <y>225</y>
-     <width>141</width>
-     <height>16</height>
+     <width>106</width>
+     <height>18</height>
     </rect>
    </property>
    <property name="font">
@@ -145,7 +167,7 @@
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
-    <string>&lt;a href=&quot;http://www.macromonkey.com/bb/index.php/topic,13.0.html&quot; style=&quot;color:#AA00FF;&quot;&gt;Class Informer Fourm&lt;/a&gt;</string>
+    <string>&lt;a href=&quot;https://github.com/rohitab/ClassInformer&quot; style=&quot;color:#AA00FF;&quot;&gt;Source on GitHub&lt;/a&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::AutoText</enum>
@@ -182,10 +204,10 @@
   <widget class="QLabel" name="versionLabel">
    <property name="geometry">
     <rect>
-     <x>225</x>
-     <y>44</y>
-     <width>61</width>
-     <height>24</height>
+     <x>205</x>
+     <y>6</y>
+     <width>81</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
@@ -198,8 +220,10 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Version: 2.7
-By Hiroshi Suzuki (By Sirmabus originally)</string>
+    <string>Version: 2.9
+By Rohitab Batra
+By Hiroshi Suzuki
+By Sirmabus</string>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>
@@ -227,7 +251,7 @@ By Hiroshi Suzuki (By Sirmabus originally)</string>
     <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Optionally select wich segments to scan for strings.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="text">
-    <string notr="true">SELECT SEGMENTS</string>
+    <string notr="true">SELECT &amp;SEGMENTS</string>
    </property>
    <property name="autoDefault">
     <bool>false</bool>

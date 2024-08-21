@@ -13,21 +13,28 @@ namespace RTTI
 	// std::type_info class representation
     struct type_info
 	{
-        #if defined(__EA3264__) 
-        UINT vfptr;	       // type_info class vftable
-        UINT _M_data;      // NULL until loaded at runtime
-        #else
-        ea_t vfptr;	       // type_info class vftable
-        ea_t _M_data;      // NULL until loaded at runtime
-        #endif
-        char _M_d_name[1]; // Mangled name (prefix: .?AV=classes, .?AU=structs)
-
         static BOOL isValid(ea_t typeInfo);
         static BOOL isTypeName(ea_t name);
         static int  getName(ea_t typeInfo, __out LPSTR bufffer, int bufferSize);
         static void tryStruct(ea_t typeInfo);
     };
-    const UINT MIN_TYPE_INFO_SIZE = (offsetof(type_info, _M_d_name) + sizeof(".?AVx"));
+
+    struct type_info32 : type_info
+    {
+        UINT vfptr;	       // type_info class vftable
+        UINT _M_data;      // NULL until loaded at runtime
+        char _M_d_name[1]; // Mangled name (prefix: .?AV=classes, .?AU=structs)
+    };
+
+    struct type_info64 : type_info
+    {
+        ea_t vfptr;	       // type_info class vftable
+        ea_t _M_data;      // NULL until loaded at runtime
+        char _M_d_name[1]; // Mangled name (prefix: .?AV=classes, .?AU=structs)
+    };
+
+    const UINT MIN_TYPE_INFO_SIZE_32 = (offsetof(type_info32, _M_d_name) + sizeof(".?AVx"));
+    const UINT MIN_TYPE_INFO_SIZE_64 = (offsetof(type_info64, _M_d_name) + sizeof(".?AVx"));
     typedef type_info _TypeDescriptor;
     typedef type_info _RTTITypeDescriptor;
 
@@ -95,7 +102,7 @@ namespace RTTI
 	};
 
     // "Complete Object Locator" location of the complete object from a specific vftable pointer
-    struct _RTTICompleteObjectLocator
+    struct _RTTICompleteObjectLocator32
 	{
 		UINT signature;				// 00 32bit zero, 64bit one, until loaded
 		UINT offset;				// 04 Offset of this vftable in the complete class
@@ -106,16 +113,15 @@ namespace RTTI
         #else
         UINT typeDescriptor;	    // 0C (type_info *) of the complete class  *X64 int32 offset
         UINT classDescriptor;       // 10 (_RTTIClassHierarchyDescriptor *) Describes inheritance hierarchy  *X64 int32 offset
-        #ifndef __EA3264__
+        #endif
+    };
+
+    struct _RTTICompleteObjectLocator : _RTTICompleteObjectLocator32
+	{
         UINT objectBase;            // 14 Object base offset (base = ptr col - objectBase)
-        #endif
-        #endif
 
         static BOOL isValid(ea_t col);
-        //#ifndef __EA64__
-        #if !defined(__EA64__) || defined(__EA3264__) 
         static BOOL isValid2(ea_t col);
-        #endif
         static BOOL tryStruct(ea_t col);
 	};
 	#pragma pack(pop)

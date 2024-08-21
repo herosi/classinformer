@@ -125,27 +125,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Doc\classes.txt">
-      <Filter>Doc</Filter>
-    </Text>
-    <Text Include="Doc\List Window Child Widgets.txt">
-      <Filter>Doc</Filter>
-    </Text>
-    <Text Include="Doc\Notes.txt">
-      <Filter>Doc</Filter>
-    </Text>
-    <Text Include="Doc\Qt Build and MOC stuff.txt">
-      <Filter>Doc</Filter>
-    </Text>
-    <Text Include="Doc\ScratchPad.txt">
-      <Filter>Doc</Filter>
-    </Text>
-    <Text Include="Doc\Temp.txt">
-      <Filter>Doc</Filter>
-    </Text>
-    <Text Include="Doc\Update TODO.txt">
-      <Filter>Doc</Filter>
-    </Text>
     <Text Include="Class_Informer.txt">
       <Filter>Doc</Filter>
     </Text>

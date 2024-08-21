@@ -64,9 +64,12 @@ static eaList colList;
 
 // Options
 BOOL optionPlaceStructs	 = TRUE;
+BOOL optionPlaceAtNamed  = FALSE;
 BOOL optionProcessStatic = TRUE;
 BOOL optionAudioOnDone   = TRUE;
 
+// Bitness of current database
+BOOL isDatabase64Bit = TRUE;
 
 static void freeWorkingData()
 {
@@ -187,23 +190,28 @@ class rtti_chooser : public chooser_multi_t
 public:
 	rtti_chooser() : chooser_multi_t(CH_QFTYP_DEFAULT, LBCOLUMNCOUNT, LBWIDTHS, LBHEADER, LBTITLE)
 	{
-		#ifdef __EA64__
-		// Setup hex address display to the minimal size needed plus a leading zero
-		UINT count = getTableCount();
-		ea_t largestAddres = 0;
-		for (UINT i = 0; i < count; i++)
-		{
-			TBLENTRY e; e.vft = 0;
-			getTableEntry(e, i);
-			if (e.vft > largestAddres)
-				largestAddres = e.vft;
-		}
+        if (isDatabase64Bit)
+        {
+            // Setup hex address display to the minimal size needed plus a leading zero
+            UINT count = getTableCount();
+            ea_t largestAddres = 0;
+            for (UINT i = 0; i < count; i++)
+            {
+                TBLENTRY e; e.vft = 0;
+                getTableEntry(e, i);
+                if (e.vft > largestAddres)
+                    largestAddres = e.vft;
+            }
 
-		char buffer[32];
-		int digits = (int) strlen(_ui64toa(largestAddres, buffer, 16));
-		if (++digits > 16) digits = 16;
-		sprintf_s(addressFormat, sizeof(buffer), "%%0%uI64X", digits);
-		#endif
+            char buffer[32];
+            int digits = (int)strlen(_ui64toa(largestAddres, buffer, 16));
+            if (++digits > 16) digits = 16;
+            sprintf_s(addressFormat, sizeof(addressFormat), "%%0%uI64X", digits);
+        }
+        else
+        {
+            strcpy_s(addressFormat, sizeof(addressFormat), "%08X");
+        }
 
 		// Chooser icon
 		icon = chooserIcon;
@@ -229,11 +237,7 @@ public:
 
 				// vft address
 				qstrvec_t &cols = *cols_;
-				#ifdef __EA64__
 				cols[0].sprnt(addressFormat, e.vft);
-				#else
-				cols[0].sprnt(EAFORMAT, e.vft);
-				#endif
 
 				// Method count
 				if (e.methods > 0)
@@ -254,7 +258,7 @@ public:
 				LPCSTR tag = strchr(e.str, '@');
 				if (tag)
 				{
-					char buffer[MAXSTR];
+					char buffer[sizeof(e.str)];
 					int pos = (tag - e.str);
 					if (pos > SIZESTR(buffer)) pos = SIZESTR(buffer);
 					memcpy(buffer, e.str, pos);
@@ -301,10 +305,7 @@ public:
 	}
 
 private:
-	#ifdef __EA64__
-	char addressFormat[16];
-	#endif
-
+	char addressFormat[32];
 };
 
 // find_widget
@@ -324,34 +325,40 @@ void customizeChooseWindow()
     {
 		QApplication::processEvents();
 
-        // Get parent chooser dock widget
-        QWidgetList pl = QApplication::activeWindow()->findChildren<QWidget*>("[Class Informer]");
-        if (QWidget *dw = findChildByClass(pl, "IDADockWidget"))
+        // Get widget
+        if (QWidget* dw = (QWidget*)find_widget(LBTITLE))
         {
             QFile file(STYLE_PATH "view-style.qss");
             if (file.open(QFile::ReadOnly | QFile::Text))
                 dw->setStyleSheet(QTextStream(&file).readAll());
+
+            // Get chooser widget
+            if (QTableView* tv = dw->findChild<QTableView*>(LBTITLE))
+            {
+                // Set sort by type name
+                tv->sortByColumn(3, Qt::AscendingOrder);
+
+                // Resize to contents
+                QHeaderView* header = tv->horizontalHeader();
+                header->setStretchLastSection(false);
+                tv->resizeColumnsToContents();
+                int max_width = (header->width() - tv->columnWidth(0) - tv->columnWidth(1) - tv->columnWidth(2)) / 2;
+                header->setMaximumSectionSize(max_width);
+                tv->resizeColumnsToContents();
+                header->setMaximumSectionSize(-1);
+                header->setStretchLastSection(true);
+
+                UINT count = getTableCount();
+                for (UINT row = 0; row < count; row++)
+                    tv->setRowHeight(row, 22);
+
+                tv->selectRow(0);
+            }
+            else
+                msg("** customizeChooseWindow(): \"QTableView\" not found!\n");
         }
         else
-            msg("** customizeChooseWindow(): \"IDADockWidget\" not found!\n");
-
-        // Get chooser widget
-        if (QTableView *tv = (QTableView *) findChildByClass(pl, "TChooserView"))
-        {
-            // Set sort by type name
-            tv->sortByColumn(3, Qt::DescendingOrder);
-
-            // Resize to contents
-            tv->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-            tv->resizeColumnsToContents();
-            tv->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
-
-            UINT count = getTableCount();
-            for (UINT row = 0; row < count; row++)
-                tv->setRowHeight(row, 24);
-        }
-        else
-            msg("** customizeChooseWindow(): \"TChooserView\" not found!\n");
+            msg("** customizeChooseWindow(): \"QWidget\" not found!\n");
     }
     CATCH()
 }
@@ -363,11 +370,15 @@ bool idaapi class_informer_t::run(size_t arg)
     {
         char version[16];
         sprintf_s(version, sizeof(version), "%u.%u", HIBYTE(MY_VERSION), LOBYTE(MY_VERSION));
-        msg("\n>> Class Informer: v: %s, built: %s, By Hiroshi Suzuki (by Sirmabus originally)\n", version, __DATE__);
+        msg("\n>> Class Informer: v: %s, built: %s, By Rohitab Batra (by Hiroshi Suzuki, Sirmabus originally)\n", version, __DATE__);
 
 		if (netNode)
 		{
 			msg("* Already active. Please close the chooser window first to run it again.\n");
+            if (TWidget* widget = find_widget(LBTITLE))
+            {
+                activate_widget(widget, true);
+            }
 		    return true;
 		}
 
@@ -392,9 +403,7 @@ bool idaapi class_informer_t::run(size_t arg)
 
         OggPlay::endPlay();
         freeWorkingData();
-        optionAudioOnDone   = TRUE;
-        optionProcessStatic = TRUE;
-        optionPlaceStructs  = TRUE;
+        isDatabase64Bit = inf_is_64bit();
         startingFuncCount   = (UINT) get_func_qty();
 		colList.clear();
         staticCppCtorCnt = staticCCtorCnt = staticCtorDtorCnt = staticCDtorCnt = 0;
@@ -439,6 +448,7 @@ bool idaapi class_informer_t::run(size_t arg)
                 if (iResult != 1)
                 {
                     msg("- Aborted -\n\n");
+                    freeWorkingData();
                     return true;
                 }
             }
@@ -518,6 +528,10 @@ bool idaapi class_informer_t::run(size_t arg)
 
 			customizeChooseWindow();
         }
+        else
+        {
+            freeWorkingData();
+        }
     }
 	CATCH()
 
@@ -559,7 +573,7 @@ static void setIntializerTable(ea_t start, ea_t end, BOOL isCpp)
 {
     try
     {
-        if (UINT count = ((end - start) / sizeof(ea_t)))
+        if (UINT count = ((end - start) / EA_SIZE))
         {
             // Set table elements as pointers
             ea_t ea = start;
@@ -571,7 +585,7 @@ static void setIntializerTable(ea_t start, ea_t end, BOOL isCpp)
                 if (ea_t func = get_32bit(ea))
                     fixFunction(func);
 
-                ea += sizeof(ea_t);
+                ea += EA_SIZE;
             };
 
             // Start label
@@ -637,7 +651,7 @@ static void setTerminatorTable(ea_t start, ea_t end)
 {
     try
     {
-        if (UINT count = ((end - start) / sizeof(ea_t)))
+        if (UINT count = ((end - start) / EA_SIZE))
         {
             // Set table elements as pointers
             ea_t ea = start;
@@ -649,7 +663,7 @@ static void setTerminatorTable(ea_t start, ea_t end)
                 if (ea_t func = getEa(ea))
                     fixFunction(func);
 
-                ea += sizeof(ea_t);
+                ea += EA_SIZE;
             };
 
             // Start label
@@ -692,7 +706,7 @@ static void setCtorDtorTable(ea_t start, ea_t end)
 {
     try
     {
-        if (UINT count = ((end - start) / sizeof(ea_t)))
+        if (UINT count = ((end - start) / EA_SIZE))
         {
             // Set table elements as pointers
             ea_t ea = start;
@@ -704,7 +718,7 @@ static void setCtorDtorTable(ea_t start, ea_t end)
                 if (ea_t func = getEa(ea))
                     fixFunction(func);
 
-                ea += sizeof(ea_t);
+                ea += EA_SIZE;
             };
 
             // Start label
@@ -860,33 +874,40 @@ static BOOL processInitterm(ea_t address, LPCTSTR name)
                 {
                     LPCSTR pattern;
                     UINT start, end, padding;
-                } static const ALIGN(16) arg2pat[] =
+                };
+                static const ALIGN(16) ARG2PAT arg2pat32[] =
                 {
-                    //#ifndef __EA64__
-                    #if !defined(__EA64__) || defined(__EA3264__) 
                     { "68 ?? ?? ?? ?? 68", 6, 1 },          // push offset s, push offset e
                     { "B8 ?? ?? ?? ?? C7 04 24", 8, 1 },    // mov [esp+4+var_4], offset s, mov eax, offset e   Maestia
                     { "68 ?? ?? ?? ?? B8", 6, 1 },          // mov eax, offset s, push offset e
-                    #else
-                    { "48 8D 15 ?? ?? ?? ?? 48 8D 0D", 3, 3 },  // lea rdx,s, lea rcx,e
-                    #endif
                 };
+                static const ALIGN(16) ARG2PAT arg2pat64[] =
+                {
+                    { "48 8D 15 ?? ?? ?? ?? 48 8D 0D", 3, 3 },  // lea rdx,s, lea rcx,e
+                };
+                const ARG2PAT* arg2pat = isDatabase64Bit ? arg2pat64 : arg2pat32;
+                UINT qnumber_arg2pat = isDatabase64Bit ? qnumber(arg2pat64) : qnumber(arg2pat32);
                 BOOL matched = FALSE;
-                for (UINT i = 0; (i < qnumber(arg2pat)) && !matched; i++)
+                for (UINT i = 0; (i < qnumber_arg2pat) && !matched; i++)
                 {
 					ea_t match = FIND_BINARY(instruction2, xref, arg2pat[i].pattern);
 					if (match != BADADDR)
 					{
-						//#ifndef __EA64__
-                        #if !defined(__EA64__) || defined(__EA3264__) 
-						ea_t start = getEa(match + arg2pat[i].start);
-						ea_t end   = getEa(match + arg2pat[i].end);
-						#else
-						UINT startOffset = get_32bit(instruction1 + arg2pat[i].start);
-						UINT endOffset   = get_32bit(instruction2 + arg2pat[i].end);
-						ea_t start = (instruction1 + 7 + *((PINT) &startOffset)); // TODO: 7 is hard coded instruction length, put this in arg2pat table?
-						ea_t end   = (instruction2 + 7 + *((PINT) &endOffset));
-						#endif
+                        ea_t start;
+                        ea_t end;
+
+                        if (!isDatabase64Bit)
+                        {
+						    start = getEa(match + arg2pat[i].start);
+						    end   = getEa(match + arg2pat[i].end);
+                        }
+						else
+                        {
+							UINT startOffset = get_32bit(instruction1 + arg2pat[i].start);
+							UINT endOffset   = get_32bit(instruction2 + arg2pat[i].end);
+							start = (instruction1 + 7 + *((PINT) &startOffset)); // TODO: 7 is hard coded instruction length, put this in arg2pat table?
+							end   = (instruction2 + 7 + *((PINT) &endOffset));
+						}
 						msg("  " EAFORMAT " Two instruction pattern match #%d\n", match, i);
 						count += doInittermTable(func, start, end, name);
 						matched = TRUE;
@@ -1087,20 +1108,10 @@ void fixDword(ea_t ea)
 // Force memory location to be ea_t size
 void fixEa(ea_t ea)
 {
-    //#ifndef __EA64__
-    #if !defined(__EA64__) || defined(__EA3264__) 
-    if (!is_dword(get_flags(ea)))
-    #else
-    if (!is_qword(get_flags(ea)))
-    #endif
+    if (!isEa(get_flags(ea)))
     {
-        setUnknown(ea, sizeof(ea_t));
-        //#ifndef __EA64__
-        #if !defined(__EA64__) || defined(__EA3264__) 
-        create_dword(ea, sizeof(ea_t));
-        #else
-		create_qword(ea, sizeof(ea_t));
-        #endif
+        setUnknown(ea, EA_SIZE);
+        isDatabase64Bit ? create_qword(ea, EA_SIZE) : create_dword(ea, EA_SIZE);
     }
 }
 
@@ -1177,50 +1188,6 @@ BOOL getPlainTypeName(__in LPCSTR mangled, __out_bcount(MAXSTR) LPSTR outStr)
     return(TRUE);
 }
 
-// Wrapper for 'add_struc_member()' with error messages
-// See to make more sense of types: http://idapython.googlecode.com/svn-history/r116/trunk/python/idc.py
-int addStrucMember(struc_t *sptr, char *name, ea_t offset, flags_t flag, opinfo_t *type, asize_t nbytes)
-{
-    int r = add_struc_member(sptr, name, offset, flag, type, nbytes);
-    switch(r)
-    {
-        case STRUC_ERROR_MEMBER_NAME:
-        msg("AddStrucMember(): error: already has member with this name (bad name)\n");
-        break;
-
-        case STRUC_ERROR_MEMBER_OFFSET:
-        msg("AddStrucMember(): error: already has member at this offset\n");
-        break;
-
-        case STRUC_ERROR_MEMBER_SIZE:
-        msg("AddStrucMember(): error: bad number of bytes or bad sizeof(type)\n");
-        break;
-
-        case STRUC_ERROR_MEMBER_TINFO:
-        msg("AddStrucMember(): error: bad typeid parameter\n");
-        break;
-
-        case STRUC_ERROR_MEMBER_STRUCT:
-        msg("AddStrucMember(): error: bad struct id (the 1st argument)\n");
-        break;
-
-        case STRUC_ERROR_MEMBER_UNIVAR:
-        msg("AddStrucMember(): error: unions can't have variable sized members\n");
-        break;
-
-        case STRUC_ERROR_MEMBER_VARLAST:
-        msg("AddStrucMember(): error: variable sized member should be the last member in the structure\n");
-        break;
-
-        case STRUC_ERROR_MEMBER_NESTED:
-        msg("AddStrucMember(): error: recursive structure nesting is forbidden\n");
-        break;
-    };
-
-    return(r);
-}
-
-
 void setUnknown(ea_t ea, int size)
 {
 	del_items(ea, DELIT_EXPAND, size);
@@ -1275,65 +1242,68 @@ static BOOL scanSeg4Cols(segment_t *seg)
     msg(" N: \"%s\", A: " EAFORMAT " - " EAFORMAT ", S: %s.\n", name.c_str(), seg->start_ea, seg->end_ea, byteSizeString(seg->size()));
 
     UINT found = 0;
-    if (seg->size() >= sizeof(RTTI::_RTTICompleteObjectLocator))
+    UINT sizeof_RTTI_RTTICompleteObjectLocator = isDatabase64Bit ? sizeof(RTTI::_RTTICompleteObjectLocator) : sizeof(RTTI::_RTTICompleteObjectLocator32);
+    if (seg->size() >= sizeof_RTTI_RTTICompleteObjectLocator)
     {
         ea_t startEA = ((seg->start_ea + sizeof(UINT)) & ~((ea_t) (sizeof(UINT) - 1)));
-        ea_t endEA   = (seg->end_ea - sizeof(RTTI::_RTTICompleteObjectLocator));
+        ea_t endEA   = (seg->end_ea - sizeof_RTTI_RTTICompleteObjectLocator);
 
         for (ea_t ptr = startEA; ptr < endEA;)
         {
-            //#ifdef __EA64__
-            #if defined(__EA64__) && !defined(__EA3264__) 
-            // Check for possible COL here
-            // Signature will be one
-            // TODO: Is this always 1 or can it be zero like 32bit?
-            if (get_32bit(ptr + offsetof(RTTI::_RTTICompleteObjectLocator, signature)) == 1)
+            if (isDatabase64Bit)
             {
-                if (RTTI::_RTTICompleteObjectLocator::isValid(ptr))
+                // Check for possible COL here
+                // Signature will be one
+                // TODO: Is this always 1 or can it be zero like 32bit?
+                if (get_32bit(ptr + offsetof(RTTI::_RTTICompleteObjectLocator, signature)) == 1)
                 {
-                    // yes
-                    colList.push_front(ptr);
-					missingColsFixed += (UINT) RTTI::_RTTICompleteObjectLocator::tryStruct(ptr);
-                    ptr += sizeof(RTTI::_RTTICompleteObjectLocator);
-                    continue;
+                    if (RTTI::_RTTICompleteObjectLocator::isValid(ptr))
+                    {
+                        // yes
+                        colList.push_front(ptr);
+                        missingColsFixed += (UINT)RTTI::_RTTICompleteObjectLocator::tryStruct(ptr);
+                        ptr += sizeof(RTTI::_RTTICompleteObjectLocator);
+                        continue;
+                    }
+                }
+                else
+                {
+                    // TODO: Should we check stray BCDs?
+                    // Each value would have to be tested for a valid type_def and
+                    // the pattern is pretty ambiguous.
                 }
             }
             else
             {
-                // TODO: Should we check stray BCDs?
-                // Each value would have to be tested for a valid type_def and
-                // the pattern is pretty ambiguous.
-            }
-            #else
-            // TypeDescriptor address here?
-            ea_t ea = getEa(ptr);
-            if (ea >= 0x10000)
-            {
-                if (RTTI::type_info::isValid(ea))
+                // TypeDescriptor address here?
+                ea_t ea = getEa(ptr);
+                if (ea >= 0x10000)
                 {
-                    // yes, a COL here?
-                    ea_t col = (ptr - offsetof(RTTI::_RTTICompleteObjectLocator, typeDescriptor));
-                    if (RTTI::_RTTICompleteObjectLocator::isValid2(col))
+                    if (RTTI::type_info::isValid(ea))
                     {
-                        // yes
-                        colList.push_front(col);
-						missingColsFixed += (UINT) RTTI::_RTTICompleteObjectLocator::tryStruct(col);
-                        ptr += sizeof(RTTI::_RTTICompleteObjectLocator);
-                        continue;
+                        // yes, a COL here?
+                        ea_t col = (ptr - offsetof(RTTI::_RTTICompleteObjectLocator, typeDescriptor));
+                        if (RTTI::_RTTICompleteObjectLocator::isValid2(col))
+                        {
+                            // yes
+                            colList.push_front(col);
+                            missingColsFixed += (UINT)RTTI::_RTTICompleteObjectLocator::tryStruct(col);
+                            ptr += sizeof(RTTI::_RTTICompleteObjectLocator32);
+                            continue;
+                        }
+                        /*
+                        else
+                        // No, is it a BCD then?
+                        if (RTTI::_RTTIBaseClassDescriptor::isValid2(ptr))
+                        {
+                            // yes
+                            char dontCare[MAXSTR];
+                            RTTI::_RTTIBaseClassDescriptor::doStruct(ptr, dontCare);
+                        }
+                        */
                     }
-                    /*
-                    else
-                    // No, is it a BCD then?
-                    if (RTTI::_RTTIBaseClassDescriptor::isValid2(ptr))
-                    {
-                        // yes
-                        char dontCare[MAXSTR];
-                        RTTI::_RTTIBaseClassDescriptor::doStruct(ptr, dontCare);
-                    }
-                    */
                 }
             }
-            #endif
 
             if (WaitBox::isUpdateTime())
                 if (WaitBox::updateAndCancelCheck())
@@ -1402,15 +1372,10 @@ static BOOL scanSeg4Vftables(segment_t *seg, eaRefMap &colMap)
 	msg(" N: \"%s\", A: " EAFORMAT " - " EAFORMAT ", S: %s.\n", name.c_str(), seg->start_ea, seg->end_ea, byteSizeString(seg->size()));
 
     UINT foundCount = 0;
-    if (seg->size() >= sizeof(ea_t))
+    if (seg->size() >= (UINT)EA_SIZE)
     {
-        #if defined(__EA3264__) 
-        ea_t startEA = ((seg->start_ea + sizeof(UINT)) & ~((ea_t) (sizeof(UINT) - 1)));
-        ea_t endEA   = (seg->end_ea - sizeof(UINT));
-        #else
-        ea_t startEA = ((seg->start_ea + sizeof(ea_t)) & ~((ea_t)(sizeof(ea_t) - 1)));
-        ea_t endEA = (seg->end_ea - sizeof(ea_t));
-        #endif
+        ea_t startEA = ((seg->start_ea + EA_SIZE) & ~((ea_t)(EA_SIZE - 1)));
+        ea_t endEA = (seg->end_ea - EA_SIZE);
 		_ASSERT(((startEA | endEA) & 3) == 0);
         eaRefMap::iterator colEnd = colMap.end();
 
@@ -1423,11 +1388,7 @@ static BOOL scanSeg4Vftables(segment_t *seg, eaRefMap &colMap)
             if (it != colEnd)
             {
                 // yes, look for vftable one ea_t below
-                #if defined(__EA3264__) 
-                ea_t vfptr  = (ptr + sizeof(UINT));
-                #else
-                ea_t vfptr = (ptr + sizeof(ea_t));
-                #endif
+                ea_t vfptr = (ptr + EA_SIZE);
                 ea_t method = getEa(vfptr);
 
                 // Points to code?
@@ -1561,13 +1522,8 @@ static BOOL getRttiData(SegSelect::segments *segList)
 
 static char _comment[] = "Class Informer: Locates and fixes C++ Run Time Type class and structure information.";
 static char _help[] = "";
-#ifdef __EA3264__
-static char _name[] = "Class Informer for PE32 on IDA 64";
-static const char _wanted_hotkey[] = "Alt-Shift-3";
-#else
 static char _name[] = "Class Informer";
 static const char _wanted_hotkey[] = "Alt-Shift-I";
-#endif
 
 // Plug-in description block
 plugin_t PLUGIN =

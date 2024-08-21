@@ -40,27 +40,26 @@ template <class T> BOOL getVerify32(ea_t eaPtr, T &rValue)
 	return(FALSE);
 }
 
+#if IDA_SDK_VERSION < 800
+#define EA_SIZE sizeof(ea_t)
+#else
+#define EA_SIZE EAH.ea_size
+#endif
+
+extern BOOL isDatabase64Bit;
+
 // Get address/pointer value
 inline ea_t getEa(ea_t ea)
 {
-    //#ifndef __EA64__
-    #if !defined(__EA64__) || defined(__EA3264__) 
-    return((ea_t) get_32bit(ea));
-    #else
-    return((ea_t) get_64bit(ea));
-    #endif
+    return isDatabase64Bit ? get_64bit(ea) : get_32bit(ea);
 }
 
 
 // Returns TRUE if ea_t sized value flags
 inline BOOL isEa(flags_t f)
 {
-    //#ifndef __EA64__
-    #if !defined(__EA64__) || defined(__EA3264__) 
-    return(is_dword(f));
-    #else
-    return(is_qword(f));
-    #endif
+    return isDatabase64Bit ? is_qword(f) : is_dword(f);
 }
 
 extern BOOL optionPlaceStructs;
+extern BOOL optionPlaceAtNamed;
