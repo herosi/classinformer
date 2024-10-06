@@ -101,11 +101,11 @@ BOOL vftable::getTableInfo(ea_t ea, vtinfo &info)
             fixEa(ea);
             fixFunction(memberPtr);
 
-            ea += sizeof(ea_t);
+            ea += EA_SIZE;
         };
 
         // Reached the presumed end of it
-        if ((info.methodCount = ((ea - start) / sizeof(ea_t))) > 0)
+        if ((info.methodCount = ((ea - start) / EA_SIZE)) > 0)
         {
             info.end = ea;
             //msg(" vftable: "EAFORMAT"-"EAFORMAT", methods: %d\n", rtInfo.eaStart, rtInfo.eaEnd, rtInfo.uMethods);

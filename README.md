@@ -1,11 +1,10 @@
-# classinformer-ida8
-IDA Class Informer plugin for IDA 8.x
+# Class Informer
+IDA Class Informer plugin for IDA Pro 9 and older versions.
 
-Changelog from the original [IDA ClassInformer PlugIn v2.6](https://sourceforge.net/projects/classinformer/)
-- Updated to IDA SDK 8.2 and MSVC 2019
-- Updated the plugin form to the new one to work with IDA SDK 8.2
-- Created a plugin to analyze PE32 on IDA 64 (IDA_ClassInformer_PlugIn3264.dlL) because IDA is currently stopping to use IDA for 32-bit.
-- Linked VC++ runtime statically (/MT*)
+ - This plugin has been tested with IDA Pro `9.0 Beta`, `7.7` and `8.3`, both 32-bit and 64-bit versions.
+ - You no longer need a separate version of the plugin for working on 32-bit files in 64-bit IDA.
+ - For IDA 9, you just need to install `ClassInformer64.dll`.
+ - For IDA 8 and 7, you need to install both `ClassInformer64.dll` and `ClassInformer.dll`.
 
 ## Download
 - You can download compiled binaries from the [Releases](../../releases) section.

@@ -28,7 +28,9 @@
 #include <loader.hpp>
 #include <search.hpp>
 #include <typeinf.hpp>
+#if IDA_SDK_VERSION < 900
 #include <struct.hpp>
+#endif
 #include <nalt.hpp>
 #include <demangle.hpp>
 #pragma warning(pop)
@@ -67,4 +69,4 @@ typedef std::unordered_map<ea_t, UINT> eaRefMap; // address & ref count
 //#define STYLE_PATH "C:/Projects/IDA Pro Work/IDA_ClassInformer_PlugIn/Plugin/"
 #define STYLE_PATH ":/classinf/"
 
-#define MY_VERSION MAKEWORD(7, 2) // Low, high, convention: 0 to 99
+#define MY_VERSION MAKEWORD(9, 2) // Low, high, convention: 0 to 99

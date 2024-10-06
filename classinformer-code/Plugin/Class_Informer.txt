@@ -1,3 +1,14 @@
+Class Informer for IDA 9:
+===========================================================
+IDA Pro class vftable finder, namer, fixer, lister plug-in.
+Version 2.9, August 2024
+By Rohitab Batra
+
+https://github.com/rohitab/ClassInformer
+
+Source code is backwards compatible with IDA 8 and 7.
+Version 2.8 was the initial release with support for IDA 9.
+
 
 Class Informer for IDA 8:
 ===========================================================
