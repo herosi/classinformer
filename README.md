@@ -1,5 +1,7 @@
 # classinformer-ida8
 IDA Class Informer plugin for IDA 8.x
+If you want to use this in IDA 9.x and later, use [Class Informer by rohitab](https://github.com/rohitab/ClassInformer).  
+I will not maintain this anymore because of the plugin above.
 
 Changelog from the original [IDA ClassInformer PlugIn v2.6](https://sourceforge.net/projects/classinformer/)
 - Updated to IDA SDK 8.2 and MSVC 2019
