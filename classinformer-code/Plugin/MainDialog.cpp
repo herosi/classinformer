@@ -5,6 +5,7 @@
 //
 // ****************************************************************************
 #include "stdafx.h"
+#include "Main.h"
 #include "MainDialog.h"
 
 #include <QtWidgets/QDialogButtonBox>
@@ -19,6 +20,7 @@ MainDialog::MainDialog(BOOL& optionPlaceStructs, BOOL& optionProcessStatic, BOOL
 
     #define INITSTATE(obj,state) obj->setCheckState((state == TRUE) ? Qt::Checked : Qt::Unchecked);
     INITSTATE(checkBox1, optionPlaceStructs);
+    INITSTATE(checkBoxAtNamed, optionPlaceAtNamed);
     INITSTATE(checkBox2, optionProcessStatic);
     INITSTATE(checkBox3, optionAudioOnDone);
     #undef INITSTATE
@@ -46,6 +48,7 @@ BOOL doMainDialog(BOOL &optionPlaceStructs, BOOL &optionProcessStatic, BOOL &opt
     {
         #define CHECKSTATE(obj,var) var = dlg->obj->isChecked()
         CHECKSTATE(checkBox1, optionPlaceStructs);
+        CHECKSTATE(checkBoxAtNamed, optionPlaceAtNamed);
         CHECKSTATE(checkBox2, optionProcessStatic);
         CHECKSTATE(checkBox3, optionAudioOnDone);
         #undef CHECKSTATE

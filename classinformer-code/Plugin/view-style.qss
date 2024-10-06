@@ -10,7 +10,12 @@ QTableView
 {
 	font-family: Noto Sans,Consolas;
 	font-weight: 100;
-	font-size: 14px;
+	font-size: 12px;
+}
+
+QTableView::item
+{
+	padding-right: 12px;
 }
 
 /* Color the status bar */

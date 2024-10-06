@@ -20,9 +20,4 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerEnvironment>PATH=$(QTDIR)bin%3b$(PATH)</LocalDebuggerEnvironment>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release3264|x64'">
-    <LocalDebuggerCommand>$(IDADIR)ida64.exe </LocalDebuggerCommand>
-    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerEnvironment>PATH=$(QTDIR)bin%3b$(PATH)</LocalDebuggerEnvironment>
-  </PropertyGroup>
 </Project>

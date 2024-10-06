@@ -209,7 +209,11 @@ ea_t find_binary2(ea_t start_ea, ea_t end_ea, LPCSTR pattern, LPCSTR file, int l
 	compiled_binpat_vec_t searchVec;	
 	qstring errorStr;
 	if (parse_binpat_str(&searchVec, start_ea, pattern, 16, PBSENC_DEF1BPU, &errorStr))	
-		return bin_search2(start_ea, end_ea, searchVec, (BIN_SEARCH_FORWARD | BIN_SEARCH_NOBREAK | BIN_SEARCH_NOSHOW));	
+#if IDA_SDK_VERSION >= 900
+		return bin_search3(start_ea, end_ea, searchVec, (BIN_SEARCH_FORWARD | BIN_SEARCH_NOBREAK | BIN_SEARCH_NOSHOW));
+#else
+		return bin_search2(start_ea, end_ea, searchVec, (BIN_SEARCH_FORWARD | BIN_SEARCH_NOBREAK | BIN_SEARCH_NOSHOW));
+#endif
 	else
 		msg("** parse_binpat_str() failed! Reason: \"%s\" @ %s, line #%d **", errorStr.c_str(), __FILE__, __LINE__);
 	return BADADDR;
@@ -250,7 +254,6 @@ ea_t find_binary2(ea_t start_ea, ea_t end_ea, LPCSTR pattern, LPCSTR file, int l
 #define FF_FUNC 0x10000000LU	// Function start
 //              0x20000000LU    // Reserved
 #define FF_IMMD 0x40000000LU    // Has Immediate value
-#define FF_JUMP 0x80000000LU    // Has jump table or switch_info
 
 // * Instruction/Data operands 0F000000
 #define MS_1TYPE 0x0F000000LU   // Mask for the type of other operands
@@ -300,7 +303,7 @@ ea_t find_binary2(ea_t start_ea, ea_t end_ea, LPCSTR pattern, LPCSTR file, int l
 #define FF_IVL  0x00000100LU	// Has byte value in 000000FF
 
 // Decode IDA address flags value into a readable string
-#if !defined(__EA64__)
+#if !defined(__EA64__) || IDA_SDK_VERSION < 800
 void idaFlags2String(flags_t f, __out qstring &s, BOOL withValue)
 #else
 void idaFlags2String(flags64_t f, __out qstring &s, BOOL withValue)

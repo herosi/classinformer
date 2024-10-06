@@ -2,10 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <IDADIR>C:\Program Files\IDA Pro 8.2\</IDADIR>
-    <QTDIR>C:\Qt\5.15.2-x64\</QTDIR>
+    <IDADIR>C:\Program Files\IDA Professional 9.0\</IDADIR>
+    <QTDIR>C:\Qt\Qt-5.15.3\</QTDIR>
     <IDASUPPORT>..\..\ida-support-library-code\</IDASUPPORT>
-    <IDASDK>..\..\idasdk_pro82\</IDASDK>
+    <IDASDK>$(IDADIR)\sdk\</IDASDK>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />
