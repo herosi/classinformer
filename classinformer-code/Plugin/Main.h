@@ -12,7 +12,9 @@ extern void setUnknown(ea_t ea, int size);
 extern BOOL getVerifyEa(ea_t ea, ea_t &rValue);
 extern BOOL hasAnteriorComment(ea_t ea);
 extern void killAnteriorComments(ea_t ea);
+#if IDA_SDK_VERSION < 900
 extern int  addStrucMember(struc_t *sptr, char *name, ea_t offset, flags_t flag, opinfo_t *type, asize_t nbytes);
+#endif
 extern void addTableEntry(UINT flags, ea_t vft, int methodCount, LPCSTR format, ...);
 extern BOOL getPlainTypeName(__in LPCSTR mangled, __out_bcount(MAXSTR) LPSTR outStr);
 extern void setName(ea_t ea, __in LPCSTR name);

@@ -167,7 +167,7 @@
     <enum>QFrame::Sunken</enum>
    </property>
    <property name="text">
-    <string>&lt;a href=&quot;https://github.com/rohitab/ClassInformer&quot; style=&quot;color:#AA00FF;&quot;&gt;Source on GitHub&lt;/a&gt;</string>
+    <string>&lt;a href=&quot;https://github.com/herosi/classinformer&quot; style=&quot;color:#AA00FF;&quot;&gt;Source on GitHub&lt;/a&gt;</string>
    </property>
    <property name="textFormat">
     <enum>Qt::AutoText</enum>
@@ -220,7 +220,7 @@
     <string notr="true"/>
    </property>
    <property name="text">
-    <string>Version: 2.9
+    <string>Version: 2.91
 By Rohitab Batra
 By Hiroshi Suzuki
 By Sirmabus</string>

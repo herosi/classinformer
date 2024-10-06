@@ -69,4 +69,4 @@ typedef std::unordered_map<ea_t, UINT> eaRefMap; // address & ref count
 //#define STYLE_PATH "C:/Projects/IDA Pro Work/IDA_ClassInformer_PlugIn/Plugin/"
 #define STYLE_PATH ":/classinf/"
 
-#define MY_VERSION MAKEWORD(9, 2) // Low, high, convention: 0 to 99
+#define MY_VERSION MAKEWORD(91, 2) // Low, high, convention: 0 to 99

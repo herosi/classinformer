@@ -370,7 +370,7 @@ bool idaapi class_informer_t::run(size_t arg)
     {
         char version[16];
         sprintf_s(version, sizeof(version), "%u.%u", HIBYTE(MY_VERSION), LOBYTE(MY_VERSION));
-        msg("\n>> Class Informer: v: %s, built: %s, By Rohitab Batra (by Hiroshi Suzuki, Sirmabus originally)\n", version, __DATE__);
+        msg("\n>> Class Informer: v: %s, built: %s, By Rohitab Batra and Hiroshi Suzuki (by Sirmabus originally)\n", version, __DATE__);
 
 		if (netNode)
 		{

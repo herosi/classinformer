@@ -210,7 +210,7 @@ ea_t find_binary2(ea_t start_ea, ea_t end_ea, LPCSTR pattern, LPCSTR file, int l
 	qstring errorStr;
 	if (parse_binpat_str(&searchVec, start_ea, pattern, 16, PBSENC_DEF1BPU, &errorStr))	
 #if IDA_SDK_VERSION >= 900
-		return bin_search3(start_ea, end_ea, searchVec, (BIN_SEARCH_FORWARD | BIN_SEARCH_NOBREAK | BIN_SEARCH_NOSHOW));
+		return bin_search(start_ea, end_ea, searchVec, (BIN_SEARCH_FORWARD | BIN_SEARCH_NOBREAK | BIN_SEARCH_NOSHOW));
 #else
 		return bin_search2(start_ea, end_ea, searchVec, (BIN_SEARCH_FORWARD | BIN_SEARCH_NOBREAK | BIN_SEARCH_NOSHOW));
 #endif

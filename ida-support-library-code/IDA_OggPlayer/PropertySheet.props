@@ -2,8 +2,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <IDADIR>C:\Program Files\IDA Pro 8.2\</IDADIR>
-    <IDASDK>..\..\idasdk_pro82\</IDASDK>
+    <IDADIR>C:\Program Files\IDA Professional 9.0\</IDADIR>
+    <IDASDK>..\..\idasdk90\</IDASDK>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />
