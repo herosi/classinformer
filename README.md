@@ -2,7 +2,7 @@
 IDA Class Informer plugin for IDA Pro 9 and older versions.
 
  - This plugin has been tested with IDA Pro `9.0`, and `8.4 SP2`, on both 32-bit and 64-bit versions.
-   - Please note that IDA Pro 9.0 `beta` version is not supported.
+   - Please note that IDA Pro 9.0 ***beta*** is NOT supported.
  - You no longer need a separate version of the plugin for working on 32-bit files in 64-bit IDA from v2.9.
  - For IDA 9, you just need to install `ClassInformer64.dll`.
  - For IDA 8, you need to install both `ClassInformer_IDA8x64.dll` and `ClassInformer_IDA8x.dll`.
