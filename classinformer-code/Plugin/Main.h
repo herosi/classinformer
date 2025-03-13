@@ -42,7 +42,7 @@ template <class T> BOOL getVerify32(ea_t eaPtr, T &rValue)
 	return(FALSE);
 }
 
-#if IDA_SDK_VERSION < 800
+#if IDA_SDK_VERSION < 820
 #define EA_SIZE sizeof(ea_t)
 #else
 #define EA_SIZE EAH.ea_size

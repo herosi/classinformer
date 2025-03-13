@@ -1,7 +1,7 @@
 Class Informer for IDA 9:
 ===========================================================
 IDA Pro class vftable finder, namer, fixer, lister plug-in.
-Version 2.91, October 2024
+Version 2.92, March 2025
 By Rohitab Batra and Hiroshi Suzuki
 https://github.com/herosi/classinformer
 
@@ -21,7 +21,7 @@ IDA Pro class vftable finder, namer, fixer, lister plug-in.
 Version 2.7, January 2023
 By Hiroshi Suzuki (By Sirmabus originally)
 
-https://github.com/herosi/classinformer-ida8/
+https://github.com/herosi/classinformer/
 I tested on ida 8.2.
 
 Original:
@@ -133,6 +133,12 @@ Disassembler"
 
 
 -- [History] --------------------------------------------
+
+2.92- 1) Support ARM64 Windows binaries.
+      2) Limit only PE formatted binaries.
+
+2.91- 1) Source code is backwards compatible with IDA 8 and 7.
+      2) This version supports IDA 9 (released versions).
 
 2.7 - 1) Updated to IDA SDK 8.2 and MSVC 2019
       2) Updated the plugin form to the new one to work with IDA SDK 8.2

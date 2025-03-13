@@ -41,9 +41,9 @@ namespace RTTI
     // Base class "Pointer to Member Data"
 	struct PMD
 	{
-		int mdisp;	// 00 Member displacement
-		int pdisp;  // 04 Vftable displacement
-		int vdisp;  // 08 Displacement inside vftable
+		int mdisp;  // 00 Vftable displacement inside class instance
+		int pdisp;  // 04 Vbtable displacement
+		int vdisp;  // 08 Vftable displacement inside vbtable
 	};
 
     // Describes all base classes together with information to derived class access dynamically

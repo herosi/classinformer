@@ -3,10 +3,10 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <IDADIR>C:\Program Files\IDA Professional 9.0\</IDADIR>
-    <QTDIR>..\..\..\Qt\5.15.2-x64\</QTDIR>
+    <QTDIR>..\..\..\..\Qt\5.15.2-x64\</QTDIR>
     <IDASUPPORT>..\..\ida-support-library-code\</IDASUPPORT>
-    <IDASDK>..\..\idasdk90\</IDASDK>
-    <IDASDK8x>..\..\idasdk_pro84\</IDASDK8x>
+    <IDASDK>..\..\..\idasdk90\</IDASDK>
+    <IDASDK8x>..\..\..\idasdk_pro80\</IDASDK8x>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />

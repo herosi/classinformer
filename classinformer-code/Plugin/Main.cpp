@@ -103,8 +103,15 @@ static plugmod_t* idaapi init()
     CASSERT(sizeof(TBLENTRY) == 1024);
 
     processor_t& ph = PH;
-    if (ph.id != PLFM_386)
-        return nullptr; // only for x86
+    if (ph.id != PLFM_386 && ph.id != PLFM_ARM)
+    {
+        msg("[ClassInformer] WARNING: The binary you loaded is not for x86, x64, ARM nor ARM64. It is not supported (%x)\n", ph.id);
+        return nullptr; // only for x86, x64, ARM and ARM64
+    }
+    if (inf_get_filetype() != f_PE) {
+        msg("[ClassInformer] WARNING: The binary you loaded is not PE. It is not supported (%x)\n", inf_get_filetype());
+        return nullptr; // only PE format is allowed
+    }
     return new class_informer_t(ph);
 }
 
