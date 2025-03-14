@@ -303,7 +303,7 @@ ea_t find_binary2(ea_t start_ea, ea_t end_ea, LPCSTR pattern, LPCSTR file, int l
 #define FF_IVL  0x00000100LU	// Has byte value in 000000FF
 
 // Decode IDA address flags value into a readable string
-#if !defined(__EA64__) || IDA_SDK_VERSION < 800
+#if !defined(__EA64__) || IDA_SDK_VERSION < 820
 void idaFlags2String(flags_t f, __out qstring &s, BOOL withValue)
 #else
 void idaFlags2String(flags64_t f, __out qstring &s, BOOL withValue)

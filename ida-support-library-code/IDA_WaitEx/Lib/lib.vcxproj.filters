@@ -20,7 +20,7 @@
     <ClCompile Include="GeneratedFiles\ReleaseEA64\moc_MyQProgressDialog.cpp">
       <Filter>Generated Files\ReleaseEA64</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\MSD ReleaseEA64\moc_MyQProgressDialog.cpp">
+    <ClCompile Include="GeneratedFiles\MDS ReleaseEA64\moc_MyQProgressDialog.cpp">
       <Filter>Generated Files\MDS ReleaseEA64</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\MDS DebugEA64\moc_MyQProgressDialog.cpp">

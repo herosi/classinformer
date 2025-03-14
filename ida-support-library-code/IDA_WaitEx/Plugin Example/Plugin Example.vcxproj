@@ -21,8 +21,8 @@
       <Configuration>MDS Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="MSD ReleaseEA64|x64">
-      <Configuration>MSD ReleaseEA64</Configuration>
+    <ProjectConfiguration Include="MDS ReleaseEA64|x64">
+      <Configuration>MDS ReleaseEA64</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="ReleaseEA64|x64">
@@ -86,7 +86,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MSD ReleaseEA64|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MDS ReleaseEA64|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -117,7 +117,7 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='MDS Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='MSD ReleaseEA64|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='MDS ReleaseEA64|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -163,7 +163,7 @@
     <GenerateManifest>false</GenerateManifest>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MSD ReleaseEA64|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MDS ReleaseEA64|x64'">
     <TargetName>WaitBoxEx_ExampleMd64</TargetName>
     <TargetExt>.dlL</TargetExt>
     <GenerateManifest>false</GenerateManifest>
@@ -334,7 +334,7 @@
       <Command>copy "$(OutDir)$(TargetFileName)" "$(_IDADIR)\plugins"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MSD ReleaseEA64|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MDS ReleaseEA64|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

@@ -3,8 +3,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <IDADIR>C:\Program Files\IDA Professional 9.0\</IDADIR>
-    <QTDIR>..\..\..\..\Qt\5.15.2-x64\</QTDIR>
-    <IDASDK>..\..\..\idasdk90\</IDASDK>
+    <QTDIR>..\..\..\..\..\Qt\5.15.2-x64\</QTDIR>
+    <IDASDK>..\..\..\..\idasdk90\</IDASDK>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />

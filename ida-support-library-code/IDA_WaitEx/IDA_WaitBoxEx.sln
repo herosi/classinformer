@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33214.272
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Plugin Example", "Plugin Example\Plugin Example.vcxproj", "{4B47C3F8-33A6-4A56-B165-57A636EC0E9A}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -17,7 +17,7 @@ Global
 		MDS Debug|x64 = MDS Debug|x64
 		MDS DebugEA64|x64 = MDS DebugEA64|x64
 		MDS Release|x64 = MDS Release|x64
-		MSD ReleaseEA64|x64 = MSD ReleaseEA64|x64
+		MDS ReleaseEA64|x64 = MDS ReleaseEA64|x64
 		Release|x64 = Release|x64
 		ReleaseEA64|x64 = ReleaseEA64|x64
 	EndGlobalSection
@@ -27,7 +27,7 @@ Global
 		{4B47C3F8-33A6-4A56-B165-57A636EC0E9A}.MDS Debug|x64.ActiveCfg = MDS Debug|x64
 		{4B47C3F8-33A6-4A56-B165-57A636EC0E9A}.MDS DebugEA64|x64.ActiveCfg = MDS DebugEA64|x64
 		{4B47C3F8-33A6-4A56-B165-57A636EC0E9A}.MDS Release|x64.ActiveCfg = MDS Release|x64
-		{4B47C3F8-33A6-4A56-B165-57A636EC0E9A}.MSD ReleaseEA64|x64.ActiveCfg = MSD ReleaseEA64|x64
+		{4B47C3F8-33A6-4A56-B165-57A636EC0E9A}.MDS ReleaseEA64|x64.ActiveCfg = MDS ReleaseEA64|x64
 		{4B47C3F8-33A6-4A56-B165-57A636EC0E9A}.Release|x64.ActiveCfg = MDS Release|x64
 		{4B47C3F8-33A6-4A56-B165-57A636EC0E9A}.ReleaseEA64|x64.ActiveCfg = ReleaseEA64|x64
 		{22222222-2222-2222-2222-222222222222}.Debug|x64.ActiveCfg = Debug|x64
@@ -40,8 +40,10 @@ Global
 		{22222222-2222-2222-2222-222222222222}.MDS DebugEA64|x64.Build.0 = MDS DebugEA64|x64
 		{22222222-2222-2222-2222-222222222222}.MDS Release|x64.ActiveCfg = MDS Release|x64
 		{22222222-2222-2222-2222-222222222222}.MDS Release|x64.Build.0 = MDS Release|x64
-		{22222222-2222-2222-2222-222222222222}.MSD ReleaseEA64|x64.ActiveCfg = MSD ReleaseEA64|x64
+		{22222222-2222-2222-2222-222222222222}.MDS ReleaseEA64|x64.ActiveCfg = MDS ReleaseEA64|x64
+		{22222222-2222-2222-2222-222222222222}.MDS ReleaseEA64|x64.Build.0 = MDS ReleaseEA64|x64
 		{22222222-2222-2222-2222-222222222222}.Release|x64.ActiveCfg = Release|x64
+		{22222222-2222-2222-2222-222222222222}.Release|x64.Build.0 = Release|x64
 		{22222222-2222-2222-2222-222222222222}.ReleaseEA64|x64.ActiveCfg = ReleaseEA64|x64
 		{22222222-2222-2222-2222-222222222222}.ReleaseEA64|x64.Build.0 = ReleaseEA64|x64
 	EndGlobalSection
@@ -49,7 +51,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {91BC338E-D142-439E-A147-6405D544AE71}
 		Qt5Version = 5.6.0
+		SolutionGuid = {91BC338E-D142-439E-A147-6405D544AE71}
 	EndGlobalSection
 EndGlobal
