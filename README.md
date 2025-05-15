@@ -1,4 +1,12 @@
 # Class Informer
+Use the original classinformer (See the URL below).  
+https://github.com/kweatherman/IDA_ClassInformer_PlugIn
+
+The original author, Kevin Weatherman aka "Sirmabus", now released the plugin for IDA 9 on the URL above.
+So the puprose of this repositry is now over!
+It's time to archive this repositry.
+---------------------------------
+
 IDA Class Informer plugin for IDA Pro 9 and 8. It is just a ported version of the [original classinformer](https://sourceforge.net/projects/classinformer/) to work on IDA 8 and 9. Therefore, I will not actively develop it. If you want to improve it, send the PR to me. Do not open an issue for improvement requests.
 
  - This plugin has been tested with IDA Pro `9.1`, `9.0 SP1`, `9.0`, `8.4 SP2`, `8.2 SP1` and `8.0` on both 32-bit and 64-bit versions.
